@@ -4,14 +4,19 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const authJwt = require('./helpers/jwt');
-require('dotenv/config');
-const api = process.env.API_URL;
 const errorHandler = require('./helpers/error-handler');
-app.use(authJwt());
+require('dotenv/config');
 
 //CORS
 app.use(cors());
 app.options('*', cors());
+
+//Middleware
+app.use(express.json());
+app.use(morgan('tiny'));
+app.use(authJwt());
+app.use('/public/uploads', express.static(__dirname + '/public/uploads'));
+app.use(errorHandler);
 
 //Routing
 const categoriesRouter = require('./routes/categories');
@@ -19,18 +24,14 @@ const productsRouter = require('./routes/products');
 const ordersRouter = require('./routes/orders');
 const usersRouter = require('./routes/users');
 
-//Middleware
-app.use(express.json());
-app.use(morgan('tiny'));
+const api = process.env.API_URL;
 
-
-//Routers
 app.use(`${api}/categories`, categoriesRouter);
 app.use(`${api}/products`, productsRouter);
 app.use(`${api}/orders`, ordersRouter);
 app.use(`${api}/users`, usersRouter);
 
-app.use(errorHandler);
+
 
 mongoose.connect(process.env.CONNECTION_STRING, {
     dbName: 'toyshub-database'
