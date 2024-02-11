@@ -45,16 +45,12 @@ router.get(`/`, async (req, res) => {
 });
 
 router.get(`/:id`, async (req, res) => {
-    if(!mongoose.isValidObjectId(req.params.id)){
-        return res.status(400).send('Invalid Product ID')
+    const product = await Product.findById(req.params.id).populate("category");
+ 
+    if (!product) {
+        res.status(500).json({ success: false });
     }
-
-    const product = await Product.findById(req.params.id).populate('category').select('name image -_id');
-
-    if(!product) {
-        res.status(500).json({success: false})
-    }
-    res.send(product); 
+    res.send(product);
 });
 
 router.post(`/`, uploadOptions.single('image'), async (req, res) => {
