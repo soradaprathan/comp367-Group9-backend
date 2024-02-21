@@ -32,8 +32,6 @@ app.use(`${api}/products`, productsRouter);
 app.use(`${api}/orders`, ordersRouter);
 app.use(`${api}/users`, usersRouter);
  
-console.log('MongoDB Connection String:', process.env.CONNECTION_STRING);
-
 mongoose.connect(process.env.CONNECTION_STRING, {
     useNewUrlParser: true,
     useUnifiedTopology: true,

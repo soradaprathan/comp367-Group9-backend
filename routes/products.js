@@ -37,7 +37,7 @@ router.get(`/`, async (req, res) => {
         filter = {category: req.query.categories.split(',')}
     }
     
-    const productList = await Product.find(filter).populate('category').select('name image');
+    const productList = await Product.find(filter).populate('category');
     if(!productList) {
         res.status(500).json({success: false})
     }
@@ -181,7 +181,6 @@ router.put('/gallery-images/:id', uploadOptions.array('images', 10), async (req,
         })
     }
     
-
     const product = await Product.findByIdAndUpdate(
         req.params.id,
         {
