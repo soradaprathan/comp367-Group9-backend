@@ -156,7 +156,7 @@ router.get(`/get/count`, async (req, res) =>{
     }
 })
 
-//removed /select from find method
+
 router.get('/get/featured/:count', async (req, res) =>{
     const count = req.params.count ? req.params.count : 0
     const products = await Product.find({isFeatured: true}).limit(+count);
