@@ -1,35 +1,41 @@
-const {Review} = require('../models/review');
-const {Order} = require('../models/order');
+const { Review } = require('../models/review');
+const { Order } = require('../models/order');
 const express = require('express');
 const router = express.Router();
 
-router.get(`/`, async (req, res) =>{
-    const reviewList = await Review.find()
-                            .populate('user', 'name')
-                            .populate('product', 'name')
-                            .sort({'dateReview': -1});
+router.get(`/`, async (req, res) => {
+    let filter = {};
+    if (req.query.product) {
+        filter = { product: req.query.product.split(',') }
+    }
 
-    if(!reviewList) {
-        res.status(500).json({success: false})
-    } 
+
+    const reviewList = await Review.find(filter)
+        .populate('user', 'name')
+        .populate('product', 'name')
+        .sort({ 'dateReview': -1 });
+
+    if (!reviewList) {
+        res.status(500).json({ success: false })
+    }
     res.send(reviewList);
 })
 
-router.get(`/:id`, async (req, res) =>{
+router.get(`/:id`, async (req, res) => {
     const review = await Review.findById(req.params.id)
         .populate('user', 'name')
         .populate('product', 'name');
 
-    if(!review) {
-        res.status(500).json({success: false})
-    } 
+    if (!review) {
+        res.status(500).json({ success: false })
+    }
     res.send(review);
 })
 
 router.post(`/`, async (req, res) => {
- 
+
     let review = new Review({
-        
+
         comment: req.body.comment,
         rating: req.body.rating,
         user: req.body.user,
@@ -39,8 +45,8 @@ router.post(`/`, async (req, res) => {
 
     review = await review.save();
 
-    if(!review)
-    return res.status(404).send('Review cannot be created!')
+    if (!review)
+        return res.status(404).send('Review cannot be created!')
 
     res.send(review);
 });
@@ -52,24 +58,24 @@ router.put('/:id', async (req, res) => {
             comment: req.body.comment,
             rating: req.body.rating,
         },
-        {new: true}
+        { new: true }
     )
 
-    if(!review)
-    return res.status(404).send('Review cannot be updated!')
+    if (!review)
+        return res.status(404).send('Review cannot be updated!')
 
     res.send(review);
 });
 
 router.delete('/:id', (req, res) => {
     Review.findByIdAndDelete(req.params.id).then(review => {
-        if(review) {
-            return res.status(200).json({success: true, message: 'Review deleted successfully.'})
+        if (review) {
+            return res.status(200).json({ success: true, message: 'Review deleted successfully.' })
         } else {
-            return res.status(404).json({success: false, message: 'Review not found.'})
+            return res.status(404).json({ success: false, message: 'Review not found.' })
         }
     }).catch(err => {
-        return res.status(400).json({success: false, error: err})
+        return res.status(400).json({ success: false, error: err })
     })
 });
 
@@ -77,10 +83,10 @@ router.delete('/:id', (req, res) => {
 //http://localhost:3000/api/v1/reviews/get/countbyproductid/65bd727bd288b143b45573a5
 router.get(`/get/countbyproductid/:id`, async (req, res) => {
 
-    const positiveReviewCount = await Review.countDocuments({product: req.params.id, rating: '1'});
+    const positiveReviewCount = await Review.countDocuments({ product: req.params.id, rating: '1' });
 
-    const negativeReviewCount = await Review.countDocuments({product: req.params.id, rating: '0'});
-    
+    const negativeReviewCount = await Review.countDocuments({ product: req.params.id, rating: '0' });
+
     res.send({
         recommendCount: positiveReviewCount,
         notRecommendCount: negativeReviewCount
@@ -88,6 +94,45 @@ router.get(`/get/countbyproductid/:id`, async (req, res) => {
 
 });
 
+router.get(`/get/averagebyproductid/:id`, async (req, res) => {
 
-module.exports =router;
+    // const averageRating = await Review.aggregate([
+    //     {
+    //         $match: {product: req.params.id}
+    //     },
+    //     {
+    //         $group: {
+    //             _id: '$product',
+    //             averageRating: {$avg: '$rating'}
+    //         }
+    //     }
+    // ]);
+
+    // console.log("RATING AVG: " + averageRating);
+
+    // res.send(averageRating);
+
+    try {
+        const productId = req.params.id;
+
+        // Find all reviews for the given product
+        const reviews = await Review.find({ product: productId });
+
+        if (reviews.length === 0) {
+            return res.status(404).json({ message: 'No reviews found for the product' });
+        }
+
+        // Calculate average rating
+        const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
+        const averageRating = totalRating / reviews.length;
+
+        res.send({ averageRating: averageRating });
+    } catch (error) {
+        console.error('Error fetching average rating:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+
+});
+
+module.exports = router;
 

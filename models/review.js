@@ -4,7 +4,8 @@ const reviewSchema = mongoose.Schema({
     
     product: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product'
+        ref: 'Product',
+        required: true
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -20,8 +21,8 @@ const reviewSchema = mongoose.Schema({
     },
     order: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Order',
-        required: true
+        ref: 'Order'
+        // ,required: true
     },
     dateReview: {
         type: Date,
