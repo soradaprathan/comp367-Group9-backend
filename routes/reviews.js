@@ -4,16 +4,42 @@ const express = require('express');
 const router = express.Router();
 
 router.get(`/`, async (req, res) => {
-    let filter = {};
+    let reviewList = [];
     if (req.query.product) {
-        filter = { product: req.query.product.split(',') }
-    }
-
-
-    const reviewList = await Review.find(filter)
+        // console.log("PRODUCT ID: " + req.query.product);
+        reviewList = await Review.find( {'product': req.query.product})
+        .populate('user', 'name')
+        .populate({
+            path: 'product', 
+            select: 'name',
+            match: { '_id': req.query.product  },
+        })
+        .sort({ 'dateReview': -1 });
+    }else{
+        // console.log("Don't have product id");
+        reviewList = await Review.find()
         .populate('user', 'name')
         .populate('product', 'name')
         .sort({ 'dateReview': -1 });
+    }
+
+
+    // const reviewList = await Review.find({match: {'product': req.query.product}})
+    //     .populate('user', 'name')
+    //     .populate({
+    //         path: 'product', 
+    //         select: 'name',
+    //         match: { '_id': req.query.product  },
+    //     })
+    //     .sort({ 'dateReview': -1 });
+
+    console.log("REVIEW LIST: " );
+    console.log(reviewList);
+    // console.log("TEST:" );
+    // filter2 = { product: req.query.product };
+    // const test = await Review.find(filter2)
+    //     .sort({ 'dateReview': -1 });
+    // console.log(test);
 
     if (!reviewList) {
         res.status(500).json({ success: false })
