@@ -24,6 +24,7 @@ const categoriesRouter = require("./routes/categories");
 const productsRouter = require("./routes/products");
 const ordersRouter = require("./routes/orders");
 const usersRouter = require("./routes/users");
+const reviewsRouter = require("./routes/reviews");
  
 const api = process.env.API_URL;
  
@@ -31,6 +32,7 @@ app.use(`${api}/categories`, categoriesRouter);
 app.use(`${api}/products`, productsRouter);
 app.use(`${api}/orders`, ordersRouter);
 app.use(`${api}/users`, usersRouter);
+app.use(`${api}/reviews`, reviewsRouter);
  
 mongoose.connect(process.env.CONNECTION_STRING, {
     useNewUrlParser: true,
