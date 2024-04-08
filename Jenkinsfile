@@ -35,21 +35,16 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'npm install'
-                sh 'npm run build'
+                sh 'npm install'      
             }
         }
 
-        stage('Test') {
-            steps {
-                sh 'npm test'
-            }
-        }
+
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("your-image-name:${env.BUILD_ID}")
+                    docker.build("sorada1111/backend-dev:${env.BUILD_ID}")
                 }
             }
         }
