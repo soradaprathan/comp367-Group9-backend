@@ -59,7 +59,7 @@ pipeline {
 
     post {
         always {
-            // Post-build actions like cleaning up can go here
+           echo 'The pipeline is finished.'
         }
     }
 }
