@@ -27,7 +27,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('YourSonarQubeServer') {
-                        sh 'sonar-scanner -Dsonar.projectKey=YourProjectKey -Dsonar.sources=. -Dsonar.host.url=YourSonarServerUrl -Dsonar.login=YourSonarAuthToken'
+                        bat 'sonar-scanner -Dsonar.projectKey=YourProjectKey -Dsonar.sources=. -Dsonar.host.url=YourSonarServerUrl -Dsonar.login=YourSonarAuthToken'
                     }
                 }
             }
@@ -35,7 +35,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'npm install'      
+                bat 'npm install'      
             }
         }
 
