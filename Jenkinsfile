@@ -10,10 +10,10 @@ pipeline {
     }
 
     stages {
-        stage('Checkout Code') {
+        stage('Checkout code') {
             steps {
-                // Replace with your specific branch if needed
-                git 'https://github.com/soradaprathan/comp367-Group9-backend.git'
+                
+                git branch: 'master', url: 'https://github.com/soradaprathan/comp367-Group9-backend.git'
             }
         }
 
