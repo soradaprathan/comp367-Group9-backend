@@ -23,12 +23,15 @@ pipeline {
             }
         }
 
-        stage('Static Code Analysis') {
+        stage('SonarQube analysis') {
+            environment {
+                SCANNER_HOME = tool 'SonarQubeScanner';    
+            }
+            
             steps {
-                script {
-                    withSonarQubeEnv('YourSonarQubeServer') {
-                        bat 'sonar-scanner -Dsonar.projectKey=YourProjectKey -Dsonar.sources=. -Dsonar.host.url=YourSonarServerUrl -Dsonar.login=YourSonarAuthToken'
-                    }
+                
+                withSonarQubeEnv('SonarQube') {
+                    sh "${SCANNER_HOME}/bin/sonar-scanner"
                 }
             }
         }
