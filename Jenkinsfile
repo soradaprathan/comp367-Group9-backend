@@ -23,10 +23,12 @@ pipeline {
             }
         }
 
-       steps {
-            withSonarQubeEnv("SonarQube") {
-                sh "npm install sonar-scanner"
-                sh "npm run sonar"
+        stage('sonar'){     
+            steps {
+                withSonarQubeEnv("SonarQube") {
+                    sh "npm install sonar-scanner"
+                    sh "npm run sonar"
+                }
             }
         }
 
