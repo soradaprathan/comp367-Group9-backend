@@ -23,18 +23,30 @@ pipeline {
             }
         }
 
-        stage('sonar'){     
-            steps {
+    stage('sonar'){     
+        steps {
+            script {
+                
                 def scannerHome = tool 'SonarQube';
                 withSonarQubeEnv('SonarQube') {
-                bat "${scannerHome}/bin/sonar-scanner"
+                    bat "${scannerHome}/bin/sonar-scanner"
                 }
-                // withSonarQubeEnv("SonarQube") {
-                //     bat "npm install sonar-scanner"
-                //     bat "npm run sonar"
-                // }
             }
         }
+    }
+
+        // stage('sonar'){     
+        //     steps {
+        //         def scannerHome = tool 'SonarQube';
+        //         withSonarQubeEnv('SonarQube') {
+        //         bat "${scannerHome}/bin/sonar-scanner"
+        //         }
+        //         // withSonarQubeEnv("SonarQube") {
+        //         //     bat "npm install sonar-scanner"
+        //         //     bat "npm run sonar"
+        //         // }
+        //     }
+        // }
 
         stage('Build') {
             steps {
