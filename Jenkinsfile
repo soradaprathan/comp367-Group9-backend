@@ -25,10 +25,14 @@ pipeline {
 
         stage('sonar'){     
             steps {
-                withSonarQubeEnv("SonarQube") {
-                    bat "npm install sonar-scanner"
-                    bat "npm run sonar"
+                def scannerHome = tool 'SonarQube';
+                withSonarQubeEnv() {
+                bat "${scannerHome}/bin/sonar-scanner"
                 }
+                // withSonarQubeEnv("SonarQube") {
+                //     bat "npm install sonar-scanner"
+                //     bat "npm run sonar"
+                // }
             }
         }
 
