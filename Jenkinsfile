@@ -26,8 +26,8 @@ pipeline {
         stage('sonar'){     
             steps {
                 withSonarQubeEnv("SonarQube") {
-                    sh "npm install sonar-scanner"
-                    sh "npm run sonar"
+                    bat "npm install sonar-scanner"
+                    bat "npm run sonar"
                 }
             }
         }
