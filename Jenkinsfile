@@ -23,16 +23,10 @@ pipeline {
             }
         }
 
-        stage('SonarQube analysis') {
-            environment {
-                SCANNER_HOME = tool 'SonarQubeScanner';    
-            }
-            
-            steps {
-                
-                withSonarQubeEnv('SonarQube') {
-                    sh "${SCANNER_HOME}/bin/sonar-scanner"
-                }
+       steps {
+            withSonarQubeEnv("SonarQube") {
+                sh "npm install sonar-scanner"
+                sh "npm run sonar"
             }
         }
 
