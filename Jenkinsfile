@@ -79,6 +79,26 @@ pipeline {
             }
         }
 
+        stage('Docker Pull') {
+            steps {
+                script {
+                   
+                    bat "docker pull ${IMAGE_NAME}"
+                               
+                }       
+            }
+        }
+
+        stage('Deployment') {
+            steps {
+                script {
+                    bat "docker compose -f 'docker-compose.yaml' down"
+                    bat "docker compose -f 'docker-compose.yaml' up -d --build"
+                               
+                }       
+            }
+        }
+
     }
 
     post {
