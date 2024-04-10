@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  backend:
+  backend-qat:
     image: sorada1111/eshop:backend-qat
 
     ports:
