@@ -40,7 +40,16 @@ pipeline {
         }
     }
 
-
+ stage('Test and Coverage') {
+            steps {
+                script {
+                    // Install project dependencies
+                    bat 'npm install'
+                    // Run Jest tests with coverage. It will not fail if there are no tests, due to Jest configuration.
+                    bat 'npm test'
+                }
+            }
+        }
     stage('Docker Build') {
             steps {
                script {                  
