@@ -10,8 +10,8 @@ pipeline {
     }
 
     environment {     
-        IMAGE_NAME = "sorada1111/backend-dev:lastest"
-        IMAGE_NAME_VERSION = "sorada1111/backend-dev:${BUILD_ID}"
+        IMAGE_NAME = "sorada1111/eshop:dev"
+        IMAGE_NAME_VERSION = "sorada1111/eshop:dev-${BUILD_ID}"
     }
 
     stages {
@@ -74,20 +74,10 @@ pipeline {
                 script {
                     bat "docker tag ${IMAGE_NAME_VERSION} ${IMAGE_NAME}"
                     bat "docker push ${IMAGE_NAME}"
-                    bat "docker push ${IMAGE_NAME_VERSION}"
-                    // bat "docker tag ${IMAGE_NAME_VERSION} sorada1111/backend-dev:latest"
-                    // bat "docker push sorada1111/backend-dev:latest"
-                    // bat "docker push ${IMAGE_NAME_VERSION}"
-                }
-            //    script {
-            //          bat "docker tag ${IMAGE_NAME_VERSION} ${IMAGE_NAME}"
-            //          bat "docker push ${IMAGE_NAME}"
-            //          bat "docker push ${IMAGE_NAME_VERSION}"
-            //     }
+                    bat "docker push ${IMAGE_NAME_VERSION}"                 
+                }       
             }
         }
-
-
 
     }
 
