@@ -61,11 +61,16 @@ pipeline {
         
         stage('Docker Push') {
             steps {
-               script {
-                     bat "docker tag ${IMAGE_NAME_VERSION} ${IMAGE_NAME}"
-                     bat "docker push ${IMAGE_NAME}"
-                     bat "docker push ${IMAGE_NAME_VERSION}"
+                script {
+                    bat "docker tag ${IMAGE_NAME_VERSION} sorada1111/backend-dev:latest"
+                    bat "docker push sorada1111/backend-dev:latest"
+                    bat "docker push ${IMAGE_NAME_VERSION}"
                 }
+            //    script {
+            //          bat "docker tag ${IMAGE_NAME_VERSION} ${IMAGE_NAME}"
+            //          bat "docker push ${IMAGE_NAME}"
+            //          bat "docker push ${IMAGE_NAME_VERSION}"
+            //     }
             }
         }
 
