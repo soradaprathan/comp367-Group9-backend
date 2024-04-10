@@ -48,6 +48,7 @@ pipeline {
                     // Run Jest tests with coverage. It will not fail if there are no tests, due to Jest configuration.
                     bat 'npm test'
                 }
+                cobertura coberturaReportFile: '**/coverage/lcov.info'
             }
         }
     stage('Docker Build') {
