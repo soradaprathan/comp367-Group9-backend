@@ -2,6 +2,7 @@ version: "3"
 
 services:
   backend-staging:
+    container_name: backend-staging
     image: sorada1111/eshop:backend-staging
 
     ports:

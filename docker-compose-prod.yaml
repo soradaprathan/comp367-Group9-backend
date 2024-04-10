@@ -2,6 +2,7 @@ version: "3"
 
 services:
   backend-prod:
+    container_name: backend-prod
     image: sorada1111/eshop:backend-prod
 
     ports:
