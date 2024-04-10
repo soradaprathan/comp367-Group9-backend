@@ -1,0 +1,8 @@
+version: "3"
+
+services:
+  backend:
+    image: sorada1111/eshop:backend-qat
+
+    ports:
+      - "3100:3000"
