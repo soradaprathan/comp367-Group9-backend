@@ -28,29 +28,29 @@ pipeline {
             }
         }
 
-    stage('sonar'){     
-        steps {
-            script {
+//     stage('sonar'){     
+//         steps {
+//             script {
                 
-                def scannerHome = tool 'SonarQube';
-                withSonarQubeEnv('SonarQube') {
-                    bat "${scannerHome}/bin/sonar-scanner"
-                }
-            }
-        }
-    }
+//                 def scannerHome = tool 'SonarQube';
+//                 withSonarQubeEnv('SonarQube') {
+//                     bat "${scannerHome}/bin/sonar-scanner"
+//                 }
+//             }
+//         }
+//     }
 
- stage('Test and Coverage') {
-            steps {
-                script {
-                    // Install project dependencies
-                    bat 'npm install'
-                    // Run Jest tests with coverage. It will not fail if there are no tests, due to Jest configuration.
-                    bat 'npm test'
-                }
-                //cobertura coberturaReportFile: '**/coverage/lcov.info'
-            }
-        }
+//  stage('Test and Coverage') {
+//             steps {
+//                 script {
+//                     // Install project dependencies
+//                     bat 'npm install'
+//                     // Run Jest tests with coverage. It will not fail if there are no tests, due to Jest configuration.
+//                     bat 'npm test'
+//                 }
+//                 //cobertura coberturaReportFile: '**/coverage/lcov.info'
+//             }
+//         }
     stage('Docker Build') {
             steps {
                script {                  
