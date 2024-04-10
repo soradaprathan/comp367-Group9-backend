@@ -10,8 +10,8 @@ pipeline {
     }
 
     environment {     
-        IMAGE_NAME = "sorada1111/eshop:dev"
-        IMAGE_NAME_VERSION = "sorada1111/eshop:dev-${BUILD_ID}"
+        IMAGE_NAME = "sorada1111/eshop:backend-dev"
+        IMAGE_NAME_VERSION = "sorada1111/eshop:backend-dev-${BUILD_ID}"
     }
 
     stages {
