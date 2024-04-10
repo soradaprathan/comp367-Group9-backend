@@ -92,8 +92,8 @@ pipeline {
         stage('Deployment DEV') {
             steps {
                 script {
-                    bat "docker compose -f 'docker-compose.yaml' down"
-                    bat "docker compose -f 'docker-compose.yaml' up -d --build"
+                    bat "docker compose -f docker-compose.yaml down"
+                    bat "docker compose -f docker-compose.yaml up -d --build"
                                
                 }       
             }
@@ -105,8 +105,8 @@ pipeline {
                     bat "docker tag sorada1111/eshop:backend-dev sorada1111/eshop:backend-qat"
                     bat "docker push sorada1111/eshop:backend-qat"      
                     bat "docker pull sorada1111/eshop:backend-qat"    
-                    bat "docker compose -f 'docker-compose-qat.yaml' down"
-                    bat "docker compose -f 'docker-compose-qat.yaml' up -d --build"      
+                    bat "docker compose -f docker-compose-qat.yaml down"
+                    bat "docker compose -f docker-compose-qat.yaml up -d --build"      
                 }       
             }
         }
