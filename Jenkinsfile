@@ -9,6 +9,11 @@ pipeline {
         nodejs 'NodeJS'
     }
 
+    environment {     
+        IMAGE_NAME = "sorada1111/backend-dev:"
+        IMAGE_NAME_VERSION = "sorada1111/backend-dev:${BUILD_ID}"
+    }
+
     stages {
         stage('Checkout code') {
             steps {
@@ -35,36 +40,37 @@ pipeline {
         }
     }
 
-        // stage('sonar'){     
-        //     steps {
-        //         def scannerHome = tool 'SonarQube';
-        //         withSonarQubeEnv('SonarQube') {
-        //         bat "${scannerHome}/bin/sonar-scanner"
-        //         }
-        //         // withSonarQubeEnv("SonarQube") {
-        //         //     bat "npm install sonar-scanner"
-        //         //     bat "npm run sonar"
-        //         // }
-        //     }
-        // }
 
-        stage('Build') {
+    stage('Docker Build') {
             steps {
-                bat 'npm install'      
+               script {                  
+                    bat "docker build -t ${IMAGE_NAME_VERSION} ."                   
+                }
             }
         }
-
-
-
-        stage('Build Docker Image') {
+        
+        stage('Docker Login') {
             steps {
-                script {
-                    docker.build("sorada1111/backend-dev:${env.BUILD_ID}")
+               script {    
+                      withCredentials([usernamePassword(credentialsId: 'dockerhubtoken', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                      bat "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+                      }
+                }
+            }
+        }
+        
+        stage('Docker Push') {
+            steps {
+               script {
+                     bat "docker tag ${IMAGE_NAME_VERSION} ${IMAGE_NAME}"
+                     bat "docker push ${IMAGE_NAME}"
+                     bat "docker push ${IMAGE_NAME_VERSION}"
                 }
             }
         }
 
-        // Further stages like 'Push Docker Image', 'Deploy to Dev', etc., can be added as needed
+
+
     }
 
     post {
