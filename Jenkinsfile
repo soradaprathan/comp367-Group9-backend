@@ -10,7 +10,7 @@ pipeline {
     }
 
     environment {     
-        IMAGE_NAME = "sorada1111/backend-dev:"
+        IMAGE_NAME = "sorada1111/backend-dev:lastest"
         IMAGE_NAME_VERSION = "sorada1111/backend-dev:${BUILD_ID}"
     }
 
@@ -48,7 +48,7 @@ pipeline {
                     // Run Jest tests with coverage. It will not fail if there are no tests, due to Jest configuration.
                     bat 'npm test'
                 }
-                cobertura coberturaReportFile: '**/coverage/lcov.info'
+                //cobertura coberturaReportFile: '**/coverage/lcov.info'
             }
         }
     stage('Docker Build') {
@@ -72,9 +72,12 @@ pipeline {
         stage('Docker Push') {
             steps {
                 script {
-                    bat "docker tag ${IMAGE_NAME_VERSION} sorada1111/backend-dev:latest"
-                    bat "docker push sorada1111/backend-dev:latest"
+                    bat "docker tag ${IMAGE_NAME_VERSION} ${IMAGE_NAME}"
+                    bat "docker push ${IMAGE_NAME}"
                     bat "docker push ${IMAGE_NAME_VERSION}"
+                    // bat "docker tag ${IMAGE_NAME_VERSION} sorada1111/backend-dev:latest"
+                    // bat "docker push sorada1111/backend-dev:latest"
+                    // bat "docker push ${IMAGE_NAME_VERSION}"
                 }
             //    script {
             //          bat "docker tag ${IMAGE_NAME_VERSION} ${IMAGE_NAME}"
