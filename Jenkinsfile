@@ -40,23 +40,6 @@ pipeline {
         }
     }
 
-    stage('Test and Coverage') {
-        steps {
-            script {               
-                bat 'npm install'                    
-                bat 'npm test'
-            }
-        }
-    }
-
-    // stage('Convert Coverage Format') {
-    //     steps {
-    //         script {
-    //             bat 'npm install -g lcov-to-cobertura'
-    //             bat 'lcov-to-cobertura-xml -i coverage/lcov.info -o coverage/cobertura-coverage.xml'
-    //         }
-    //     }
-    // }
 
     stage('Docker Build') {
             steps {
@@ -66,6 +49,15 @@ pipeline {
             }
         }
         
+    stage('Test and Coverage') {
+        steps {
+            script {               
+                bat 'npm install'                    
+                bat 'npm test'
+            }
+        }
+    }
+
         stage('Docker Login') {
             steps {
                script {    
