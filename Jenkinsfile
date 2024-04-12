@@ -52,8 +52,8 @@ pipeline {
     stage('Convert Coverage Format') {
         steps {
             script {
-                bat 'npm install -g lcov-to-cobertura-xml'
-                bat 'lcov-to-cobertura-xml -i coverage/lcov.info -o coverage/cobertura-coverage.xml'
+                bat 'pip install lcov-cobertura'
+                bat 'lcov-cobertura coverage/lcov.info --output coverage/cobertura-coverage.xml'
             }
         }
     }
