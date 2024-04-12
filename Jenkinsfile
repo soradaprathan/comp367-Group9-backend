@@ -28,29 +28,36 @@ pipeline {
             }
         }
 
-//     stage('sonar'){     
-//         steps {
-//             script {
+    stage('sonar'){     
+        steps {
+            script {
                 
-//                 def scannerHome = tool 'SonarQube';
-//                 withSonarQubeEnv('SonarQube') {
-//                     bat "${scannerHome}/bin/sonar-scanner"
-//                 }
-//             }
-//         }
-//     }
+                def scannerHome = tool 'SonarQube';
+                withSonarQubeEnv('SonarQube') {
+                    bat "${scannerHome}/bin/sonar-scanner"
+                }
+            }
+        }
+    }
 
-//  stage('Test and Coverage') {
-//             steps {
-//                 script {
-//                     // Install project dependencies
-//                     bat 'npm install'
-//                     // Run Jest tests with coverage. It will not fail if there are no tests, due to Jest configuration.
-//                     bat 'npm test'
-//                 }
-//                 //cobertura coberturaReportFile: '**/coverage/lcov.info'
-//             }
-//         }
+    stage('Test and Coverage') {
+        steps {
+            script {               
+                bat 'npm install'                    
+                bat 'npm test'
+            }
+        }
+    }
+
+    stage('Convert Coverage Format') {
+        steps {
+            script {
+                bat 'npm install -g lcov-to-cobertura-xml'
+                bat 'lcov-to-cobertura-xml -i coverage/lcov.info -o coverage/cobertura-coverage.xml'
+            }
+        }
+    }
+
     stage('Docker Build') {
             steps {
                script {                  
@@ -142,7 +149,8 @@ pipeline {
 
     post {
         always {
-           echo 'The pipeline is finished.'
+            cobertura coberturaReportFile: '**/coverage/cobertura-coverage.xml'
+            echo 'The pipeline is finished.'
         }
     }
 }

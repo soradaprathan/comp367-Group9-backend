@@ -31,7 +31,8 @@
   "jest": {
     "collectCoverage": true,
     "testPathIgnorePatterns": ["/node_modules/"],
-    "coverageReporters": ["lcov", "text"],
+    "coverageReporters": ["json", "lcov", "text", "html"],
+    "coverageDirectory": "coverage",
     "passWithNoTests": true
   }
 }
