@@ -1,9 +1,9 @@
 pipeline {
     agent any
 
-    // triggers {
-    //     cron('H/5 * * * *') // Poll SCM every 5 minutes
-    // }
+    triggers {
+        pollSCM('H/2 * * * *') 
+    }
 
     tools {
         nodejs 'NodeJS'
@@ -41,7 +41,7 @@ pipeline {
     }
 
 
-    stage('Docker Build') {
+    stage('Build') {
             steps {
                script {                  
                     bat "docker build -t ${IMAGE_NAME_VERSION} ."                   
