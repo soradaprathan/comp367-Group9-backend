@@ -30,9 +30,11 @@
   },
   "jest": {
     "collectCoverage": true,
-    "testPathIgnorePatterns": ["/node_modules/"],
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
     "coverageReporters": ["html", "text", "cobertura"],
     "coverageDirectory": "coverage",
-    "passWithNoTests": true
+    "testPathIgnorePatterns": ["/node_modules/"]
   }
 }
